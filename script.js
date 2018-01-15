@@ -62,31 +62,77 @@ function determineLosses(attackersDice, defendersDice) {
 
 // Hides the classes 'attackerInput' and 'defenderInput'
 function hideInput(attackerInput, defenderInput) {
-    document.getElementsByClassName(attackerInput)[0].style = "none";
-    document.getElementsByClassName(defenderInput)[0].style = "none";
+    getElement(attackerInput).style = "display: none";
+    getElement(defenderInput).style = "display: none";
 }
 
 // Shows the scores obtained from 'losses' to the attackerScoreElement and defenderScoreElement
 function showScores(attackerScoreElement, defenderScoreElement, losses) {
-    document.getElementsByClassName(attackerScoreElement)[0].style = "block";
-    document.getElementsByClassName(defenderScoreElement)[0].style = "block";
-    
-    document.getElementsByClassName(attackerScoreElement)[0].innerHTML = losses[0];
-    document.getElementsByClassName(defenderScoreElement)[0].innerHTML = losses[1];
+    var attackerElement = getElement(attackerScoreElement);
+    var defenderElement = getElement(defenderScoreElement);
+
+    attackerElement.style = "display: block";
+    defenderElement.style = "display: block";
+
+    console.log(losses);
+
+    // If the attacker was the winner...
+    if (losses[0] <= losses[1]) {
+        attackerElement.innerHTML = "<h2 class='text-center'>ATTACKERS WIN</h2>" +
+            "<h4 class='text-center text-muted'>(Took " + losses[0] + " casualties.)</h4>";
+
+        getElement('first').style = "background-color: green";
+        getElement('second').style = "background-color: red";
+    } else {
+        defenderElement.innerHTML = "<h2 class='text-center'>DEFENDERS WIN</h2>" +
+          "<h4 class='text-center text-muted'>(Took " + losses[1] + " casualties.)</h4>";
+
+        getElement('first').style = "background-color: red";
+        getElement('second').style = "background-color: green";
+    }
+
+    // Set the button to active the restart function and change its text to Reset
+    getElement('battle').setAttribute('onclick', 'restart()');
+    getElement('battle').innerHTML = 'RESET';
+
+    // getElement(attackerScoreElement).style = "width: " + window.innerWidth;
 }
 
 function calculateWinner() {
-    var attackers = document.getElementById("attackers").value;
-    var defenders = document.getElementById("defenders").value;
-    
-    var attackersDice = generateRandomDice(attackers-1);
-    var defendersDice = generateRandomDice(defenders);
-    
-    var losses = determineLosses(attackersDice, defendersDice);
-    
-    attackers -= losses[0];
-    defenders -= losses[1];
-    
+    var attackers = parseInt(document.getElementById("attackers").value), originalAttackers = attackers;
+    var defenders = parseInt(document.getElementById("defenders").value), originalDefenders = defenders;
+
+    while (attackers > 1 && defenders > 0) {
+      var attackersDice = generateRandomDice(attackers-1);
+      var defendersDice = generateRandomDice(defenders);
+
+      var losses = determineLosses(attackersDice, defendersDice);
+
+      attackers += parseInt(losses[0]);
+      defenders += parseInt(losses[1]);
+    }
+
     hideInput('attackerInput', 'defenderInput');
-    showScores('attackerScore', 'defenderScore', [attackers, defenders])
+    showScores('attackerScore', 'defenderScore', [-1*(attackers-originalAttackers), -1*(defenders-originalDefenders)]);
+}
+
+// Retrieves an element by its class name
+function getElement(className) {
+    return document.getElementsByClassName(className)[0];
+}
+
+function restart() {
+    getElement('attackerInput').style = "display: block";
+    getElement('defenderInput').style = "display: block";
+
+    getElement('attackerScore').style = "display: none";
+    getElement('attackerScore').innerHTML = '';
+    getElement('defenderScore').style = "display: none";
+    getElement('defenderScore').innerHTML = '';
+
+    getElement('battle').setAttribute('onclick', 'calculateWinner()');
+    getElement('battle').innerHTML = 'BATTLE';
+
+    getElement('first').style = "background-color: none";
+    getElement('second').style = "background-color: none";
 }

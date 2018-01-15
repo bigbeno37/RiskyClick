@@ -13,6 +13,15 @@
     <title>RiskyClick</title>
   </head>
   <body>
+      <div class="colours">
+          <div class="first">
+              <div class="attackerScore"></div>
+          </div>
+          <div class="second">
+              <div class="defenderScore"></div>
+          </div>
+      </div>
+
       <div class="vertical-center">
         <div class="container">
             <div class="row">
@@ -21,13 +30,11 @@
                         <label for="attackers">Number of attackers</label>
                         <input type="number" id="attackers" class="form-control" min="2" step="1" value="2" name="attackers"/>
                     </div>
-                    
-                    <div class="attackerScore"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <a href="#" class="btn btn-primary" onClick="calculateWinner()">BATTLE</a>
+                    <a href="#" class="btn btn-primary battle" onClick="calculateWinner()">BATTLE</a>
                 </div>
             </div>
             <div class="row">
@@ -36,8 +43,6 @@
                         <label for="defenders">Number of defenders</label>
                         <input type="number" id="defenders" class="form-control" min="1" step="1" value="1" name="defenders"/>
                     </div>
-                    
-                    <div class="defenderScore"></div>
                 </div>
             </div>
         </div>

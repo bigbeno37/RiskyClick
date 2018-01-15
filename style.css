@@ -5,3 +5,40 @@
   display: flex;
   align-items: center;
 }
+
+.attackerScore, .defenderScore {
+  position: absolute;
+}
+
+.attackerScore {
+  top: 25%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.defenderScore {
+  top: 75%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.battle {
+  margin: 50px 0;
+  font-size: 2em;
+}
+
+.first .text-muted, .second .text-muted {
+  color: white !important;
+}
+
+.colours {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.colours .first, .colours .second {
+  height: 50%;
+}

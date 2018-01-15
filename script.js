@@ -98,11 +98,45 @@ function showScores(attackerScoreElement, defenderScoreElement, losses) {
     // getElement(attackerScoreElement).style = "width: " + window.innerWidth;
 }
 
+// By Pierre
+// From https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+// Thanks man!
+function isiOS() {
+    var iDevices = [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ];
+
+    if (!!navigator.platform) {
+        while (iDevices.length) {
+            if (navigator.platform === iDevices.pop()){ return true; }
+        }
+    }
+
+    return false;
+}
+
 function calculateWinner() {
     // If there are validation errors in the fields, don't do anything
     // and report them to the user
     if (!document.getElementById('attackers').reportValidity() || !document.getElementById('defenders').reportValidity()) {
         return;
+    }
+
+    if (isiOS()) {
+        if (document.getElementById('attackers').value < 2) {
+            alert("There must be more than one attacker!");
+
+            return;
+        } else if (document.getElementById('defenders').value < 1) {
+            alert("There must be more than zero defenders!");
+
+            return;
+        }
     }
 
     var attackers = parseInt(document.getElementById("attackers").value), originalAttackers = attackers;

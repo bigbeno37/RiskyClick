@@ -99,6 +99,12 @@ function showScores(attackerScoreElement, defenderScoreElement, losses) {
 }
 
 function calculateWinner() {
+    // If there are validation errors in the fields, don't do anything
+    // and report them to the user
+    if (!document.getElementById('attackers').reportValidity() || !document.getElementById('defenders').reportValidity()) {
+        return;
+    }
+
     var attackers = parseInt(document.getElementById("attackers").value), originalAttackers = attackers;
     var defenders = parseInt(document.getElementById("defenders").value), originalDefenders = defenders;
 
